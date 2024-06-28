@@ -32,6 +32,7 @@ class AuthController extends Controller
 
         try {
             User::create([
+                'unit_id' => $request->unit_id,
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => $request->password

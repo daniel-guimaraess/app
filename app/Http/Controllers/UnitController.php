@@ -2,107 +2,103 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Unit;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class UserController extends Controller
+class UnitController extends Controller
 {
     public function create(Request $request): JsonResponse {
-        
+
         try {
-            User::create([
-                'unit_id' => $request->unit_id,
+            Unit::create([
                 'name' => $request->name,
                 'email' => $request->email,
                 'password' => $request->password
             ]);
 
             return response()->json([
-                'message' => 'User created successfully'
+                'message' => 'Unit created successfully'
             ], 200);
 
         } catch (\Throwable $th) {
 
             return response()->json([
-                'message' => 'Failed to created user',
+                'message' => 'Failed to created unit',
                 'error' => $th->getMessage()
             ], 400);
         }       
     }
 
-    public function update(Request $request, $userId): JsonResponse {
+    public function update(Request $request, $unitId): JsonResponse {
 
         try {
-            $user = User::find($userId);
+            $unit = Unit::find($unitId);
 
-            if($user)
+            if($unit)
             {
-                $user->update([
-                    'unit_id' => $request->unit_id,
-                    'name' => $request->name,
-                    'email' => $request->email,
-                    'password' => $request->password
+                $unit->update([
+                    'name' => $request->name
                 ]);
             }
 
             return response()->json([
-                'message' => 'User updated successfully'
+                'message' => 'Unit updated successfully'
             ], 200);
 
         } catch (\Throwable $th) {
 
             return response()->json([
-                'message' => 'Failed to updated user',
+                'message' => 'Failed to updated unit',
                 'error' => $th->getMessage()
             ], 400);
         }       
     }
 
-    public function show(int $userId): JsonResponse {
+    public function show(int $unitId): JsonResponse {
 
         try {
-            $user = User::find($userId);
+            $unit = Unit::find($unitId);
 
-            if($user){
+            if($unit){
                 return response()->json([
-                    'user' => $user
+                    'unit' => $unit
                 ], 200);
             }
 
             return response()->json([
-                'message' => 'User not found',
+                'message' => 'Unit not found',
             ], 404);                
 
         } catch (\Throwable $th) {
 
             return response()->json([
-                'message' => 'Failed to show user',
+                'message' => 'Failed to show unit',
             ], 400);
         }       
     }
 
-    public function destroy(int $userId): JsonResponse {
+    public function destroy(int $unitId): JsonResponse {
 
         try {
-            $user = User::find($userId);
+            $unit = Unit::find($unitId);
 
-            if($user){
-                $user->delete();
+            if($unit){
+                $unit->delete();
 
                 return response()->json([
-                    'user' => 'User deleted successfully'
+                    'user' => 'Unit deleted successfully'
                 ], 200);
             }
 
             return response()->json([
-                'message' => 'User not found',
+                'message' => 'Unit not found',
             ], 404);                
 
         } catch (\Throwable $th) {
 
             return response()->json([
-                'message' => 'Failed to delete user',
+                'message' => 'Failed to delete unit',
             ], 400);
         }       
     }
