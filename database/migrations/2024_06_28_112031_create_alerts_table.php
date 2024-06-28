@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('type');
             $table->string('detection');
-            $table->float('confiance');
+            $table->float('confidence');
             $table->string('img_url');
             $table->timestamps();
         });

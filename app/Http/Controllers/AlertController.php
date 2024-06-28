@@ -33,7 +33,7 @@ class AlertController extends Controller
                 Alert::create([
                     'type' => $request->type,
                     'detection' => $request->detection,
-                    'confiance' => $request->confiance,
+                    'confidence' => $request->confidence,
                     'img_url' => $path
                 ]);
     

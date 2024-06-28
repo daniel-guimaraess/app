@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Route;
 Route::post('register', [AuthController::class, 'register']);
 Route::post('login', [AuthController::class, 'login']);
 
+
 Route::middleware([apiProtectedRoute::class])->group(function () {    
     #Routes for authentication
     Route::post('logout', [AuthController::class, 'logout']);
@@ -31,7 +32,7 @@ Route::middleware([apiProtectedRoute::class])->group(function () {
     #Routes for alerts
     Route::get('alert/{id}', [AlertController::class, 'show']);
     Route::get('alerts', [AlertController::class, 'index']);
-    Route::post('alert', [AlertController::class, 'create']);
+    Route::post('alert', [AlertController::class, 'create']);    
 
     #Routes for analysis
     Route::get('analysis/{id}', [AnalysisController::class, 'show']);

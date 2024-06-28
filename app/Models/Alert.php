@@ -12,7 +12,7 @@ class Alert extends Model
     protected $fillable = [
         'type',
         'detection',
-        'confiance',
+        'confidence',
         'img_url'
     ];
 }
