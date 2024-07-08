@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Nowakowskir\JWT\JWT;
+use Nowakowskir\JWT\TokenDecoded;
 
 class AuthController extends Controller
 {
@@ -54,5 +57,25 @@ class AuthController extends Controller
     {
         auth('api')->logout();
         return response()->json(['message' => 'Usuário deslogado com sucesso']);
+    }
+
+    public function autenticationVisionVortex()
+    {
+        $tokenDecoded = new TokenDecoded(['payload_key' => ''], ['header_key' => '']);
+        $tokenEncoded = $tokenDecoded->encode(env('VISIONVORTEX_SECRET_KEY'), JWT::ALGORITHM_HS256);
+
+        try {
+            $tokenEncoded->validate(env('VISIONVORTEX_SECRET_KEY'), JWT::ALGORITHM_HS256);
+
+            return $tokenEncoded->toString();
+
+        } catch(Exception $e) {
+            
+            return response()->json([
+                'Msg' => 'Falha ao autenticar no VisionVortex',
+                'Error' => $e
+
+            ], 400);
+        }
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Analysis;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -11,7 +12,17 @@ class AnalysisController extends Controller
     public function index(){
 
         try {         
-            return Analysis::all();
+            $analysis = Analysis::all();
+
+            $formattedAlerts = $analysis->map(function ($analysis) {
+                return [
+                    'id' => $analysis->id,
+                    'analysis' => $analysis->analysis,
+                    'created_at' => $analysis->created_at_for_humans,
+                ];
+            });
+
+            return response()->json($formattedAlerts);
 
         } catch (\Throwable $th) {
 
@@ -59,5 +70,21 @@ class AnalysisController extends Controller
                 'message' => 'Failed to show analysis',
             ], 400);
         }       
+    }
+
+    public function countAnalysesToday()
+    {
+        try {    
+            $count = Analysis::whereDate('created_at', Carbon::today())->count();
+
+            return response()->json([
+                'count' => $count,
+            ]);
+        } catch (\Throwable $th) {
+            return response()->json([
+                'message' => 'Failed to count analysis',
+                'error' => $th->getMessage()
+            ], 400);
+        }
     }
 }
