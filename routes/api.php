@@ -41,7 +41,7 @@ Route::middleware([apiProtectedRoute::class])->group(function () {
     Route::post('alert', [AlertController::class, 'create']);    
 
     #Routes for analysis
-    Route::get('analysis/{id}', [AnalysisController::class, 'show']);
+    Route::get('analyses/{id}', [AnalysisController::class, 'show']);
     Route::get('countanalysestoday', [AnalysisController::class, 'countAnalysesToday']);
     Route::get('analyses', [AnalysisController::class, 'index']);
     Route::post('analyses', [AnalysisController::class, 'create']);    

@@ -12,7 +12,7 @@ class AlertController extends Controller
     public function index(){
 
         try {      
-            $alerts = Alert::all();
+            $alerts = Alert::orderBy('id', 'desc')->get();
 
             $formattedAlerts = $alerts->map(function ($alert) {
                 return [
