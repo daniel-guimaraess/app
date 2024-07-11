@@ -58,10 +58,13 @@ class MonitoringController extends Controller
         $jsonData = $response->json();
 
         if(!$response->ok()){
-            return response()->json(['message' => $jsonData['message']], 400);
+            return response()->json(['message' => false], 400);
         }
-
-
-        return response()->json(['status' => $jsonData['message']], 200);
+        
+        if($jsonData['message'] == 'Monitoramento desabilitado')
+        {
+            return response()->json(['status' => false], 200); 
+        }
+        return response()->json(['status' => true], 200);
     }
 }

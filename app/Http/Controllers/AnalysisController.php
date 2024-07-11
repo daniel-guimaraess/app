@@ -12,7 +12,7 @@ class AnalysisController extends Controller
     public function index(){
 
         try {         
-            $analysis = Analysis::all();
+            $analysis = Analysis::orderBy('id', 'desc')->get();
 
             $formattedAlerts = $analysis->map(function ($analysis) {
                 return [
@@ -36,9 +36,16 @@ class AnalysisController extends Controller
     public function create(Request $request): JsonResponse {
 
         try {          
-            Analysis::create([
+            $analyses = Analysis::create([
                 'analysis' => $request->analysis
             ]);
+
+            if($analyses)
+            {
+                return response()->json(
+                    ['message' => 'Analyses created successfully'
+                ], 200);
+            }
     
         } catch (\Throwable $th) {
     
@@ -71,6 +78,30 @@ class AnalysisController extends Controller
             ], 400);
         }       
     }
+
+    public function allAnalysisToday(){
+
+        try {         
+            $analysis = Analysis::orderBy('id', 'desc')->whereDate('created_at', Carbon::today())->get();
+
+            $formattedAlerts = $analysis->map(function ($analysis) {
+                return [
+                    'id' => $analysis->id,
+                    'analysis' => $analysis->analysis,
+                    'created_at' => $analysis->created_at_for_humans,
+                ];
+            });
+
+            return response()->json($formattedAlerts);
+
+        } catch (\Throwable $th) {
+
+            return response()->json([
+                'message' => 'Failed to show analysis',
+                'error' => $th->getMessage()
+            ], 400);
+        } 
+    }   
 
     public function countAnalysesToday()
     {

@@ -36,6 +36,8 @@ Route::middleware([apiProtectedRoute::class])->group(function () {
     #Routes for alerts
     Route::get('alert/{id}', [AlertController::class, 'show']);
     Route::get('countalertstoday', [AlertController::class, 'countAlertsToday']);
+    Route::get('allalertstoday', [AlertController::class, 'allAlertsToday']);
+    Route::get('allalertstodaygemini', [AlertController::class, 'allAlertsTodayGemini']);
     Route::get('lastalerts', [AlertController::class, 'lastAlerts']);
     Route::get('alerts', [AlertController::class, 'index']);
     Route::post('alert', [AlertController::class, 'create']);    
@@ -43,6 +45,7 @@ Route::middleware([apiProtectedRoute::class])->group(function () {
     #Routes for analysis
     Route::get('analyses/{id}', [AnalysisController::class, 'show']);
     Route::get('countanalysestoday', [AnalysisController::class, 'countAnalysesToday']);
+    Route::get('allanalysistoday', [AnalysisController::class, 'allAnalysisToday']);
     Route::get('analyses', [AnalysisController::class, 'index']);
     Route::post('analyses', [AnalysisController::class, 'create']);    
 
