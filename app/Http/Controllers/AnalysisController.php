@@ -27,7 +27,7 @@ class AnalysisController extends Controller
         } catch (\Throwable $th) {
 
             return response()->json([
-                'message' => 'Failed to show analysis',
+                'message' => 'Failed to show analytics',
                 'error' => $th->getMessage()
             ], 400);
         } 
@@ -43,7 +43,7 @@ class AnalysisController extends Controller
             if($analyses)
             {
                 return response()->json(
-                    ['message' => 'Analyses created successfully'
+                    ['message' => 'Analysis created successfully'
                 ], 200);
             }
     
@@ -79,12 +79,12 @@ class AnalysisController extends Controller
         }       
     }
 
-    public function allAnalysisToday(){
+    public function allAnalyticsToday(){
 
         try {         
-            $analysis = Analysis::orderBy('id', 'desc')->whereDate('created_at', Carbon::today())->get();
+            $analytics = Analysis::orderBy('id', 'desc')->whereDate('created_at', Carbon::today())->get();
 
-            $formattedAlerts = $analysis->map(function ($analysis) {
+            $formattedAlerts = $analytics->map(function ($analysis) {
                 return [
                     'id' => $analysis->id,
                     'analysis' => $analysis->analysis,
@@ -97,13 +97,13 @@ class AnalysisController extends Controller
         } catch (\Throwable $th) {
 
             return response()->json([
-                'message' => 'Failed to show analysis',
+                'message' => 'Failed to show analytics',
                 'error' => $th->getMessage()
             ], 400);
         } 
     }   
 
-    public function countAnalysesToday()
+    public function countAnalyticsToday()
     {
         try {    
             $count = Analysis::whereDate('created_at', Carbon::today())->count();
@@ -113,7 +113,7 @@ class AnalysisController extends Controller
             ]);
         } catch (\Throwable $th) {
             return response()->json([
-                'message' => 'Failed to count analysis',
+                'message' => 'Failed to count analytics',
                 'error' => $th->getMessage()
             ], 400);
         }

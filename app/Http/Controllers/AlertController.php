@@ -19,8 +19,8 @@ class AlertController extends Controller
                     'id' => $alert->id,
                     'type' => $alert->type,
                     'detection' => $alert->detection,
-                    'confidence' => $alert->confidence,
-                    'img_url' => $alert->img_url,
+                    'confidence' => round($alert->confidence, 2) * 100,
+                    'img_url' => env('APP_URL').'/storage/'.$alert->img_url,
                     'created_at' => $alert->created_at_for_humans,
                 ];
             });
@@ -46,8 +46,8 @@ class AlertController extends Controller
                     'id' => $alert->id,
                     'type' => $alert->type,
                     'detection' => $alert->detection,
-                    'confidence' => $alert->confidence,
-                    'img_url' => $alert->img_url,
+                    'confidence' => round($alert->confidence, 2) * 100,
+                    'img_url' => env('APP_URL').'/storage/'.$alert->img_url,
                     'created_at' => $alert->created_at_for_humans,
                 ];
             });
@@ -87,8 +87,8 @@ class AlertController extends Controller
                     'id' => $alert->id,
                     'type' => $alert->type,
                     'detection' => $alert->detection,
-                    'confidence' => $alert->confidence,
-                    'img_url' => $alert->img_url,
+                    'confidence' => round($alert->confidence, 2) * 100,
+                    'img_url' => env('APP_URL').'/storage/'.$alert->img_url,
                     'created_at' => $alert->created_at_for_humans,
                 ];
             });
@@ -134,6 +134,7 @@ class AlertController extends Controller
     public function create(Request $request): JsonResponse {
 
         try {
+          
             $path = $request->file->store('alerts', 'public');
             
             if($path){
@@ -168,7 +169,7 @@ class AlertController extends Controller
                 'id' => $alert->id,
                 'type' => $alert->type,
                 'detection' => $alert->detection,
-                'confidence' => $alert->confidence,
+                'confidence' => round($alert->confidence, 2) * 100,
                 'img_url' => $alert->img_url,
                 'created_at' => $alert->created_at->diffForHumans(),
             ];

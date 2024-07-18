@@ -7,6 +7,7 @@ use App\Http\Controllers\MonitoringController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\apiProtectedRoute;
+use App\Http\Middleware\apiVisionVortexProtectedRoute;
 use Illuminate\Support\Facades\Route;
 
 #Routes for authentication
@@ -40,17 +41,22 @@ Route::middleware([apiProtectedRoute::class])->group(function () {
     Route::get('allalertstodaygemini', [AlertController::class, 'allAlertsTodayGemini']);
     Route::get('lastalerts', [AlertController::class, 'lastAlerts']);
     Route::get('alerts', [AlertController::class, 'index']);
-    Route::post('alert', [AlertController::class, 'create']);    
+    #Route::post('alert', [AlertController::class, 'create']);    
 
     #Routes for analysis
-    Route::get('analyses/{id}', [AnalysisController::class, 'show']);
-    Route::get('countanalysestoday', [AnalysisController::class, 'countAnalysesToday']);
-    Route::get('allanalysistoday', [AnalysisController::class, 'allAnalysisToday']);
-    Route::get('analyses', [AnalysisController::class, 'index']);
-    Route::post('analyses', [AnalysisController::class, 'create']);    
+    Route::get('analytics/{id}', [AnalysisController::class, 'show']);
+    Route::get('countanalyticstoday', [AnalysisController::class, 'countAnalyticsToday']);
+    Route::get('allanalyticstoday', [AnalysisController::class, 'allAnalyticsToday']);
+    Route::get('analytics', [AnalysisController::class, 'index']);
+    Route::post('analytics', [AnalysisController::class, 'create']);    
 
     #Routes for monitoring
     Route::get('/startmonitoring', [MonitoringController::class, 'startMonitoring']);
     Route::get('/stopmonitoring', [MonitoringController::class, 'stopMonitoring']);
     Route::get('/statusmonitoring', [MonitoringController::class, 'statusMonitoring']);
 });
+
+Route::middleware([apiVisionVortexProtectedRoute::class])->group(function ()
+  {
+    Route::post('alert', [AlertController::class, 'create']);
+  });
