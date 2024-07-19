@@ -9,12 +9,12 @@ use Illuminate\Http\Request;
 
 class AnalysisController extends Controller
 {
-    public function index(){
-
+    public function index(): JsonResponse
+    {
         try {         
-            $analysis = Analysis::orderBy('id', 'desc')->get();
+            $analyses = Analysis::orderBy('id', 'desc')->get();
 
-            $formattedAlerts = $analysis->map(function ($analysis) {
+            $formattedAnalyses = $analyses->map(function ($analysis) {
                 return [
                     'id' => $analysis->id,
                     'analysis' => $analysis->analysis,
@@ -22,12 +22,12 @@ class AnalysisController extends Controller
                 ];
             });
 
-            return response()->json($formattedAlerts);
+            return response()->json($formattedAnalyses, 200);
 
         } catch (\Throwable $th) {
 
             return response()->json([
-                'message' => 'Failed to show analytics',
+                'message' => 'Failed to show analyses',
                 'error' => $th->getMessage()
             ], 400);
         } 
@@ -36,11 +36,11 @@ class AnalysisController extends Controller
     public function create(Request $request): JsonResponse {
 
         try {          
-            $analyses = Analysis::create([
+            $analysis = Analysis::create([
                 'analysis' => $request->analysis
             ]);
 
-            if($analyses)
+            if($analysis)
             {
                 return response()->json(
                     ['message' => 'Analysis created successfully'
@@ -79,12 +79,12 @@ class AnalysisController extends Controller
         }       
     }
 
-    public function allAnalyticsToday(){
-
+    public function allAnalysesToday(): JsonResponse
+    {
         try {         
-            $analytics = Analysis::orderBy('id', 'desc')->whereDate('created_at', Carbon::today())->get();
+            $analyses = Analysis::orderBy('id', 'desc')->whereDate('created_at', Carbon::today())->get();
 
-            $formattedAlerts = $analytics->map(function ($analysis) {
+            $formattedAnalyses = $analyses->map(function ($analysis) {
                 return [
                     'id' => $analysis->id,
                     'analysis' => $analysis->analysis,
@@ -92,28 +92,28 @@ class AnalysisController extends Controller
                 ];
             });
 
-            return response()->json($formattedAlerts);
+            return response()->json($formattedAnalyses, 200);
 
         } catch (\Throwable $th) {
 
             return response()->json([
-                'message' => 'Failed to show analytics',
-                'error' => $th->getMessage()
+                'message' => 'Failed to show analyses'
             ], 400);
         } 
     }   
 
-    public function countAnalyticsToday()
+    public function countAnalysesToday()
     {
         try {    
-            $count = Analysis::whereDate('created_at', Carbon::today())->count();
+            $analysesCount = Analysis::whereDate('created_at', Carbon::today())->count();
 
             return response()->json([
-                'count' => $count,
-            ]);
+                'count' => $analysesCount,
+            ], 200);
+            
         } catch (\Throwable $th) {
             return response()->json([
-                'message' => 'Failed to count analytics',
+                'message' => 'Failed to count analyses',
                 'error' => $th->getMessage()
             ], 400);
         }
