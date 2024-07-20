@@ -12,6 +12,7 @@ class Alert extends Model
 
     protected $fillable = [
         'type',
+        'pet_id',
         'detection',
         'confidence',
         'img_url'

@@ -18,6 +18,7 @@ class AlertController extends Controller
                 return [
                     'id' => $alert->id,
                     'type' => $alert->type,
+                    'pet_id' => $alert->pet_id,
                     'detection' => $alert->detection,
                     'confidence' => round($alert->confidence, 2) * 100,
                     'img_url' => env('APP_URL').'/storage/'.$alert->img_url,
@@ -45,6 +46,7 @@ class AlertController extends Controller
                 return [
                     'id' => $alert->id,
                     'type' => $alert->type,
+                    'pet_id' => $alert->pet_id,
                     'detection' => $alert->detection,
                     'confidence' => round($alert->confidence, 2) * 100,
                     'img_url' => env('APP_URL').'/storage/'.$alert->img_url,
@@ -86,6 +88,7 @@ class AlertController extends Controller
                 return [
                     'id' => $alert->id,
                     'type' => $alert->type,
+                    'pet_id' => $alert->pet_id,
                     'detection' => $alert->detection,
                     'confidence' => round($alert->confidence, 2) * 100,
                     'img_url' => env('APP_URL').'/storage/'.$alert->img_url,
@@ -141,6 +144,7 @@ class AlertController extends Controller
 
                 Alert::create([
                     'type' => $request->type,
+                    'pet_id' => $request->pet_id,
                     'detection' => $request->detection,
                     'confidence' => $request->confidence,
                     'img_url' => $path
@@ -168,6 +172,7 @@ class AlertController extends Controller
             $formattedAlert = [
                 'id' => $alert->id,
                 'type' => $alert->type,
+                'pet_id' => $alert->pet_id,
                 'detection' => $alert->detection,
                 'confidence' => round($alert->confidence, 2) * 100,
                 'img_url' => $alert->img_url,
