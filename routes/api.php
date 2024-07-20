@@ -4,6 +4,7 @@ use App\Http\Controllers\AlertController;
 use App\Http\Controllers\AnalysisController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\MonitoringController;
+use App\Http\Controllers\PetController;
 use App\Http\Controllers\UnitController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\apiProtectedRoute;
@@ -55,6 +56,12 @@ Route::middleware([apiProtectedRoute::class])->group(function () {
     Route::get('/startmonitoring', [MonitoringController::class, 'startMonitoring']);
     Route::get('/stopmonitoring', [MonitoringController::class, 'stopMonitoring']);
     Route::get('/statusmonitoring', [MonitoringController::class, 'statusMonitoring']);
+
+    #Routes for pets
+    Route::post('pet', [PetController::class, 'create']);
+    Route::put('pet/{id}', [PetController::class, 'update']);
+    Route::get('pet/{id}', [PetController::class, 'show']);
+    Route::delete('pet/{id}', [PetController::class, 'destroy']);
 });
 
 Route::middleware([apiVisionVortexProtectedRoute::class])->group(function ()

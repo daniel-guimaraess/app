@@ -18,6 +18,7 @@ return new class extends Migration
             $table->date('date_birth');
             $table->string('race');
             $table->double('weight');
+            $table->string('img_url')->nullable();
             $table->timestamps();
         });
     }
