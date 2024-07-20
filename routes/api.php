@@ -17,6 +17,7 @@ Route::get('version', function(){
     return response()->json(['version' => env('APP_VERSION')]);
 });
 
+Route::get('test', [AnalysisController::class, 'test']);
 
 Route::middleware([apiProtectedRoute::class])->group(function () {    
     #Routes for authentication

@@ -17,8 +17,9 @@ class AnalysisController extends Controller
             $formattedAnalyses = $analyses->map(function ($analysis) {
                 return [
                     'id' => $analysis->id,
+                    'type' => $analysis->type,
                     'analysis' => $analysis->analysis,
-                    'created_at' => $analysis->created_at_for_humans,
+                    'created_at' => Carbon::parse($analysis->created_at)->format('d/m/Y'),
                 ];
             });
 
@@ -37,6 +38,7 @@ class AnalysisController extends Controller
 
         try {          
             $analysis = Analysis::create([
+                'type' => $request->type,
                 'analysis' => $request->analysis
             ]);
 
@@ -87,8 +89,9 @@ class AnalysisController extends Controller
             $formattedAnalyses = $analyses->map(function ($analysis) {
                 return [
                     'id' => $analysis->id,
+                    'type' => $analysis->type,
                     'analysis' => $analysis->analysis,
-                    'created_at' => $analysis->created_at_for_humans,
+                    'created_at' => Carbon::parse($analysis->created_at)->format('d/m/Y'),
                 ];
             });
 

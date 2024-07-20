@@ -10,7 +10,7 @@ class Analysis extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['analysis'];
+    protected $fillable = ['type' ,'analysis'];
 
     public function getCreatedAtForHumansAttribute()
     {
