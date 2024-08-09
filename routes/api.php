@@ -43,8 +43,9 @@ Route::middleware([apiProtectedRoute::class])->group(function () {
     Route::get('allalertstodaygemini', [AlertController::class, 'allAlertsTodayGemini']);
     Route::get('lastalerts', [AlertController::class, 'lastAlerts']);
     Route::get('alerts', [AlertController::class, 'index']);
+    Route::get('chartdata', [AlertController::class, 'getChartData']);
     #Route::post('alert', [AlertController::class, 'create']);    
-
+    
     #Routes for analysis
     Route::get('analyses/{id}', [AnalysisController::class, 'show']);
     Route::get('countanalysestoday', [AnalysisController::class, 'countAnalysesToday']);
@@ -61,6 +62,7 @@ Route::middleware([apiProtectedRoute::class])->group(function () {
     Route::post('pet', [PetController::class, 'create']);
     Route::put('pet/{id}', [PetController::class, 'update']);
     Route::get('pet/{id}', [PetController::class, 'show']);
+    Route::get('pets', [PetController::class, 'index']);
     Route::delete('pet/{id}', [PetController::class, 'destroy']);
 });
 

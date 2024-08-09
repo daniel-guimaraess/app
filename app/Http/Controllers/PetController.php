@@ -7,7 +7,35 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class PetController extends Controller
-{
+{   
+    public function index(){
+
+        try {      
+            $pets = Pet::all();
+            
+            $formattedPets = $pets->map(function ($pet) {
+                return [
+                    'id' => $pet->id,
+                    'type' => $pet->type,
+                    'name' => $pet->name,
+                    'date_birth' => $pet->date_birth,
+                    'race' => $pet->race,
+                    'weight' => round($pet->weight, 2),
+                    'img_url' => env('APP_URL').'/storage/'.$pet->img_url,                
+                ];
+            });
+            
+            return response()->json($formattedPets, 200);
+
+        } catch (\Throwable $th) {
+
+            return response()->json([
+                'message' => 'Failed to show pets',
+                'error' => $th->getMessage()
+            ], 400);
+        } 
+    }   
+
     public function create(Request $request): JsonResponse {
         
         try {

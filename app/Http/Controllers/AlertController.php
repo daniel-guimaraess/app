@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Alert;
+use App\Models\Pet;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -19,6 +20,7 @@ class AlertController extends Controller
                     'id' => $alert->id,
                     'type' => $alert->type,
                     'pet_id' => $alert->pet_id,
+                    'pet_name' => $alert->pet_name,
                     'detection' => $alert->detection,
                     'confidence' => round($alert->confidence, 2) * 100,
                     'img_url' => env('APP_URL').'/storage/'.$alert->img_url,
@@ -47,6 +49,7 @@ class AlertController extends Controller
                     'id' => $alert->id,
                     'type' => $alert->type,
                     'pet_id' => $alert->pet_id,
+                    'pet_name' => $alert->pet_name,
                     'detection' => $alert->detection,
                     'confidence' => round($alert->confidence, 2) * 100,
                     'img_url' => env('APP_URL').'/storage/'.$alert->img_url,
@@ -89,6 +92,7 @@ class AlertController extends Controller
                     'id' => $alert->id,
                     'type' => $alert->type,
                     'pet_id' => $alert->pet_id,
+                    'pet_name' => $alert->pet_name,
                     'detection' => $alert->detection,
                     'confidence' => round($alert->confidence, 2) * 100,
                     'img_url' => env('APP_URL').'/storage/'.$alert->img_url,
@@ -191,6 +195,39 @@ class AlertController extends Controller
 
             return response()->json([
                 'message' => 'Failed to show alert',
+                'error' => $th->getMessage()
+            ], 400);
+        }       
+    }
+
+    public function getChartData(): JsonResponse {
+
+        try {
+            $pets = Pet::all();
+
+            $response = [];
+
+            $countAllAlertsToday = Alert::whereDate('created_at', Carbon::today())->count();
+            
+            foreach($pets as $pet)
+            {
+                $countAlerts = Alert::where('pet_id', $pet->id)->whereDate('created_at', Carbon::today())->count();
+        
+                if($countAlerts > 0)
+                {   
+                    $response[$pet->name] = ['percentage' => ($countAlerts / $countAllAlertsToday) * 100];
+                }
+                else{
+                    $response[$pet->name] = ['percentage' => 0]; 
+                }                               
+            }
+
+            return response()->json($response, 200);             
+
+        } catch (\Throwable $th) {
+
+            return response()->json([
+                'message' => 'Failed to get data to chart',
                 'error' => $th->getMessage()
             ], 400);
         }       
